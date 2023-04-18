@@ -1,0 +1,62 @@
+1. Create user
+localhost:5000/api/user/Create
+POST
+{
+    "name": "test3",
+    "gender": "female",
+    "email": "test3@test.com"
+}
+
+2. Find all user
+localhost:5000/api/user/all
+GET
+filter by email
+localhost:5000/api/user/all?email=test@test.com
+GET
+
+3. Find by id
+localhost:5000/api/user/byId/:id
+GET
+
+4. Update User
+localhost:5000/api/user/updateUser
+PUT
+{
+    "name": "test3",
+    "gender": "male",
+    "email": "test3@test.com",
+    "id": 4
+}
+
+
+5. Update User
+localhost:5000/api/user/remove/:id
+
+6. Find all user with pagination
+localhost:5000/api/user/allWithPagination?page=1&limit=10
+GET
+filter by email with pagination
+localhost:5000/api/user/all?email=test@test.com&page=1&limit=10
+GET
+
+
+7. Create multi users
+localhost:5000/api/user/createBulk
+POST
+[
+    { "name": "test10", "gender": "male", "email": "test10@test.com" },
+    { "name": "test11", "gender": "male", "email": "test11@test.com" },
+   { "name": "test12", "gender": "female", "email": "test12@test.com" }
+]
+
+8. select specific attributes
+localhost:5000/api/user/selectAttributes
+GET
+
+9. example for like operator -> fetch record where account from gmail.com
+localhost:5000/api/user/isGmailDomainEmail
+GET
+
+10. Sorting
+localhost:5000/api/user/sorting
+GET
