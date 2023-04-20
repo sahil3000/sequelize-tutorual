@@ -29,7 +29,7 @@ PUT
 }
 
 
-5. Update User
+5. Delete User
 localhost:5000/api/user/remove/:id
 
 6. Find all user with pagination
@@ -60,3 +60,14 @@ GET
 10. Sorting
 localhost:5000/api/user/sorting
 GET
+
+11. Register
+localhost:5000/api/user/register
+POST
+{
+    "name": "test300",
+    "gender": "female",
+    "email": "test300@test.com"
+}
+
+12. localhost:5000/api/user/getUsers

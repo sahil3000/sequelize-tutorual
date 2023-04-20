@@ -1,5 +1,6 @@
 const { Op } = require('sequelize');
 const db = require('../models/connection');
+const client = require('../redisConnection');
 const Users = db.users;
 
 const userController = {
@@ -252,6 +253,108 @@ const userController = {
                 body: response,
                 msg: 'gmail domain records'
             })
+        } catch (err) {
+            res.status(500).json({
+                error: true,
+                body: [],
+                msg: err.message
+            });
+        }
+    },
+
+    register: async function (req, res) {
+        const {name, email, gender} = req.body;
+        if (!name || !email || !gender) {
+            return res.status(401).json({
+                error: true,
+                body: [],
+                msg: 'all field are mandatory'
+             })
+        }
+        try {
+            const [data, isCreated] = await Users.findOrCreate({
+                where: {
+                    email: email
+                },
+                defaults: {
+                    name, gender, email
+                }
+            });
+
+            res.status(201).json({
+                error: false,
+                body: data,
+                msg: isCreated ? 'user successfully created': 'User already exist'
+            });
+        } catch (err) {
+            res.status(500).json({
+                error: true,
+                body: [],
+                msg: err.message
+            });
+        }
+    },
+
+    getUsers: async function (req, res) {
+        try {
+            let data = await client.get("UserDetails"); 
+            if (data) {
+                data = JSON.parse(data);
+            } else {
+                data = await Users.findAll();
+                // expire in 15 seconds
+                client.set('UserDetails', JSON.stringify(data),{ EX: 15 })
+            }
+
+            res.status(200).json({
+                error: false,
+                body: data,
+                msg: 'users list successfully get'
+            });
+        } catch (err) {
+            res.status(500).json({
+                error: true,
+                body: [],
+                msg: err.message
+            });
+        }
+    },
+
+    getUsers: async function (req, res) {
+        try {
+            let data = await client.get("UserDetails"); 
+            if (data) {
+                data = JSON.parse(data);
+            } else {
+                data = await Users.findAll();
+                // expire in 15 seconds
+                client.set('UserDetails', JSON.stringify(data),{ EX: 15 })
+            }
+
+            res.status(200).json({
+                error: false,
+                body: data,
+                msg: 'users list successfully get'
+            });
+        } catch (err) {
+            res.status(500).json({
+                error: true,
+                body: [],
+                msg: err.message
+            });
+        }
+    },
+
+    getUsersWithAPiHitLimit: async function (req, res) {
+        try {
+            let data = await Users.findAll();
+
+            res.status(200).json({
+                error: false,
+                body: data,
+                apiHitCount: req.request,
+                msg: 'users list successfully get'
+            });
         } catch (err) {
             res.status(500).json({
                 error: true,
