@@ -71,3 +71,7 @@ POST
 }
 
 12. localhost:5000/api/user/getUsers
+GET
+
+14. localhost:5000/api/user/getUsersWithAPiHitLimit
+GET
