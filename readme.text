@@ -75,3 +75,22 @@ GET
 
 14. localhost:5000/api/user/getUsersWithAPiHitLimit
 GET
+
+// create Post
+15. localhost:5000/api/post
+method: POST
+{
+    "title": "test1",
+    "description": "this is dummy desc",
+    "userId": 1
+}
+
+
+// get Post with users (join example)
+16. localhost:5000/api/post
+method: GET
+
+
+// get user with specific post (join example)
+17  localhost:5000/api/user/getUserWithPost
+method: GET

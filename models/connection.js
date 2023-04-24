@@ -22,10 +22,16 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.users = require('./users')(sequelize,DataTypes);
+db.posts = require('./post')(sequelize,DataTypes);
+
+
 
 db.sequelize.sync({ force: false })
     .then(() => {
         console.log("re-sync done")
     });
+
+db.users.hasOne(db.posts, { foreignKey: 'userId', as: 'postDetails' });
+db.posts.belongsTo(db.users, { foreignKey: 'userId', as: 'userDetail' });
 
 module.exports = db;

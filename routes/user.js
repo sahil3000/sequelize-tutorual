@@ -23,4 +23,7 @@ router.get("/getUsers", userController.getUsers)
 
 // user per hit 10 times this api in a minute
 router.get("/getUsersWithAPiHitLimit",apiHitLimit , userController.getUsersWithAPiHitLimit)
+
+// get user with post
+router.get("/getUserWithPost", userController.getUserWithPosts)
 module.exports = router;

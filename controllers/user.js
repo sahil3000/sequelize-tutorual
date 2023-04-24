@@ -1,7 +1,8 @@
-const { Op } = require('sequelize');
+const { Op, col, where: newWhere } = require('sequelize');
 const db = require('../models/connection');
 const client = require('../redisConnection');
 const Users = db.users;
+const Posts = db.posts;
 
 const userController = {
     create: async function (req, res) {
@@ -363,5 +364,30 @@ const userController = {
             });
         }
     },
+
+    getUserWithPosts: async function (req, res) {
+        try {
+            const response = await Users.findAll({
+                include: {
+                    model: Posts,
+                    as: 'postDetails',
+                    where: {
+                        title: "sports",
+                    }
+                }
+            });
+            res.status(200).json({
+                error: false,
+                body: response,
+                msg: 'success'
+            });
+        } catch (err) {
+            res.status(500).json({
+                error: true,
+                body: [],
+                msg: err.message
+            });
+        }
+    }
 }
 module.exports = userController;
